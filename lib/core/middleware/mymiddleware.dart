@@ -1,4 +1,4 @@
-import 'package:ecommerceapp/core/constants/route.dart';
+import 'package:adminapp/core/constants/route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +15,7 @@ class MyMiddleware extends GetMiddleware {
       return const RouteSettings(name: AppRoutes.homepage);
     }
     if (serv.shared.getString('step') == '1') {
-      return const RouteSettings(name: AppRoutes.login);
+      return const RouteSettings(name: AppRoutes.homepage);
     }
   }
 }

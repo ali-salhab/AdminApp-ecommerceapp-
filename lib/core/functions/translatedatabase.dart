@@ -1,4 +1,5 @@
-import 'package:ecommerceapp/core/services/services.dart';
+import 'package:adminapp/core/services/services.dart';
+
 import 'package:get/get.dart';
 
 translatedatabase(columnAR, columnEN) {

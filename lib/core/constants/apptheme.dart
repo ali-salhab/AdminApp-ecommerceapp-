@@ -1,4 +1,5 @@
-import 'package:ecommerceapp/core/constants/colors.dart';
+import 'package:adminapp/core/constants/colors.dart';
+
 import 'package:flutter/material.dart';
 
 ThemeData appthemEN = ThemeData(
