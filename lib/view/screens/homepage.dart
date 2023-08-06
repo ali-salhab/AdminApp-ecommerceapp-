@@ -30,7 +30,9 @@ class HomePage extends StatelessWidget {
             HomepageCard(
               title: "items",
               icon: Icons.production_quantity_limits,
-              ontap: () {},
+              ontap: () {
+                controller.gotoitemspage();
+              },
             ),
             HomepageCard(
               title: "orders",

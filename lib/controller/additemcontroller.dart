@@ -1,44 +1,58 @@
 import 'dart:io';
 
-import 'package:adminapp/controller/categoriescontroller.dart';
 import 'package:adminapp/core/class/statusrequest.dart';
+import 'package:adminapp/core/constants/colors.dart';
 import 'package:adminapp/core/constants/route.dart';
 import 'package:adminapp/core/functions/handlingdata.dart';
+import 'package:adminapp/core/functions/uploadfile.dart';
 import 'package:adminapp/data/datasource/remote/categoriesdata.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class EditCategorieController extends GetxController {
-  Map? data;
-  CategoriesControllerImp catcon = Get.find();
+abstract class AddItemController extends GetxController {}
+
+class AddItemControllerImp extends AddItemController {
+  bool checkval = true;
   File? file = null;
   TextEditingController? namear;
   TextEditingController? nameen;
   Statusrequest statusrequest = Statusrequest.none;
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
-
   CategoriesData catdata = CategoriesData(Get.find());
-  editimage() {
+
+  chooseimage() async {
+    file = await fileuploadgalllery(issvg: true);
     update();
   }
 
-  editcat() async {
-    print("-----------------------------");
-    print(namear!.text);
-    print(nameen!.text);
+  additem() async {
     if (formstate.currentState!.validate()) {
+      if (file == null) {
+        return Get.defaultDialog(
+            title: "Error",
+            titleStyle: TextStyle(color: Colors.red),
+            backgroundColor: Color.fromARGB(225, 206, 191, 193),
+            content: Text(
+              "Please select image",
+              style: TextStyle(
+                  color: Colors.red, fontWeight: FontWeight.bold, fontSize: 24),
+            ),
+            buttonColor: AppColors.primarycolor,
+            onConfirm: () {
+              Get.back();
+            });
+      }
       statusrequest = Statusrequest.loading;
       update();
-      var response = await catdata.editcat(nameen!.text, namear!.text,
-          data!['categories_image'], data!['categories_id'],
-          file: file);
+      var response = await catdata.addcat(nameen!.text, namear!.text, file!);
 
       statusrequest = handlingdata(response);
 
       if (statusrequest == Statusrequest.success) {
         if (response['status'] == 'success') {
-          Get.offNamed(AppRoutes.categories);
-          catcon.getdata();
+          print("success cat added");
+          statusrequest = Statusrequest.success;
+          Get.offAllNamed(AppRoutes.homepage);
         } else {
           statusrequest = Statusrequest.failure;
           update();
@@ -52,11 +66,11 @@ class EditCategorieController extends GetxController {
   void onInit() {
     namear = TextEditingController();
     nameen = TextEditingController();
-    data = Get.arguments['cat'];
-    namear!.text = data!['categories_name_ar'];
-    nameen!.text = data!['categories_name'];
-    print(" ------------------------$data");
     // TODO: implement onInit
     super.onInit();
   }
 }
+  // 
+
+
+

@@ -47,6 +47,7 @@ dependencies:
   shared_preferences: ^2.1.2
   file_picker: ^5.3.3
   image_picker: ^1.0.2
+  cached_network_image: ^3.2.3
 
 
 dev_dependencies:

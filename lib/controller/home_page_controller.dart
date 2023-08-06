@@ -15,6 +15,10 @@ class HomepageControllerImp extends HomepageController {
   gotocategories() {
     Get.toNamed(AppRoutes.categories);
   }
+
+  gotoitemspage() {
+    Get.toNamed(AppRoutes.item);
+  }
 }
   // 
 
