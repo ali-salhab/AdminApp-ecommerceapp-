@@ -17,6 +17,7 @@ validate(String val, int min, int max, String type) {
       return 'invalid username ';
     }
   }
+
   if (val.isEmpty) {
     return 'field cant be empty';
   }
