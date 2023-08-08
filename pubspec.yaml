@@ -48,6 +48,8 @@ dependencies:
   file_picker: ^5.3.3
   image_picker: ^1.0.2
   cached_network_image: ^3.2.3
+  dropdown_search: ^5.0.6
+  drop_down_list: ^0.0.5
 
 
 dev_dependencies:
