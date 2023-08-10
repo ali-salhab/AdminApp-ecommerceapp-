@@ -17,6 +17,11 @@ validate(String val, int min, int max, String type) {
       return 'invalid username ';
     }
   }
+  if (type == 'number') {
+    if (!GetUtils.isNum(val.trim())) {
+      return 'invaild number';
+    }
+  }
 
   if (val.isEmpty) {
     return 'field cant be empty';

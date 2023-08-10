@@ -16,6 +16,10 @@ class HomepageControllerImp extends HomepageController {
     Get.toNamed(AppRoutes.categories);
   }
 
+  gotoorderspage() {
+    Get.toNamed(AppRoutes.orderpage);
+  }
+
   gotoitemspage() {
     Get.toNamed(AppRoutes.item);
   }

@@ -23,4 +23,10 @@ class Applink {
   static const String itemsedit = "$adminserver/items/edit.php";
   static const String itemsdelete = "$adminserver/items/delete.php";
   static const String itemsadd = "$adminserver/items/add.php";
+  static const String approveorder = "$adminserver/order/approve.php";
+  static const String prepareorder = "$adminserver/order/prepare.php";
+
+  static const String viewarchive = "$adminserver/order/viewarchive.php";
+  static const String viewaccepted = "$adminserver/order/viewaccepted.php";
+  static const String viewpending = "$adminserver/order/viewpending.php";
 }

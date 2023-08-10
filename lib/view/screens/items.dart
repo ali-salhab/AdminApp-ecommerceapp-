@@ -95,8 +95,10 @@ class ItemsPage extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () {
+                                  print(controller.data[index]);
+
                                   controller
-                                      .gotoeditcat(controller.data[index]);
+                                      .gotoeditpage(controller.data[index]);
                                 },
                                 child: Container(
                                     child: const Icon(
@@ -113,9 +115,10 @@ class ItemsPage extends StatelessWidget {
                                   color: Colors.white,
                                 )),
                                 onTap: () {
-                                  controller.deletecat(
-                                      controller.data[index]['item_image'],
-                                      controller.data[index]["item_id"]);
+                                  controller.deleteitem(
+                                    controller.data[index]["item_id"],
+                                    controller.data[index]['item_image'],
+                                  );
                                 },
                               )
                             ],

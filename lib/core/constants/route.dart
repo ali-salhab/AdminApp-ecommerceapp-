@@ -6,6 +6,8 @@ class AppRoutes {
   static const String edititem = '/edititem';
   static const String additem = '/additem';
   static const String item = '/item';
+  static const String test = '/test';
+  static const String orderpage = '/orderpage';
 
   // AddAdress
   // AddressSectionTwo

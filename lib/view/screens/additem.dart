@@ -2,6 +2,7 @@ import 'package:adminapp/controller/addcategoriecontroller.dart';
 import 'package:adminapp/controller/additemcontroller.dart';
 import 'package:adminapp/core/class/handlingdataview.dart';
 import 'package:adminapp/core/constants/colors.dart';
+import 'package:adminapp/core/constants/imageassets.dart';
 import 'package:adminapp/core/functions/validinput.dart';
 import 'package:adminapp/core/shared/customfropdownsearch.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
@@ -102,7 +103,7 @@ class AddItems extends StatelessWidget {
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
                                 validator: (val) {
-                                  return validate(val!, 3, 10, "");
+                                  return validate(val!, 1, 3, "num");
                                 },
                                 controller: controller.count,
                                 decoration: InputDecoration(
@@ -124,7 +125,7 @@ class AddItems extends StatelessWidget {
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
                                 validator: (val) {
-                                  return validate(val!, 3, 10, "");
+                                  return validate(val!, 1, 5, "num");
                                 },
                                 controller: controller.price,
                                 decoration: InputDecoration(
@@ -146,7 +147,7 @@ class AddItems extends StatelessWidget {
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
                                 validator: (val) {
-                                  return validate(val!, 3, 10, "");
+                                  return validate(val!, 1, 5, "num");
                                 },
                                 controller: controller.discount,
                                 decoration: InputDecoration(
@@ -175,87 +176,48 @@ class AddItems extends StatelessWidget {
                     GetBuilder<AddItemControllerImp>(
                       builder: (controller) => Row(
                         children: [
-                          Text("active"),
+                          Text("Active"),
                           Checkbox(
                               activeColor: AppColors.primarycolor,
                               value: controller.checkval,
                               onChanged: (val) {
                                 controller.checkval = val!;
+                                print(controller.checkval);
                                 controller.update();
                               }),
                         ],
                       ),
                     ),
-                    Container(
-                      width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: GetBuilder<AddItemControllerImp>(
-                              builder: (controller) => controller.file == null
-                                  ? Container(
-                                      child: MaterialButton(
-                                        height: 50,
-                                        shape: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        color: AppColors.primarycolor,
-                                        onPressed: () {
-                                          controller.chooseimage();
-                                        },
-                                        child: Icon(Icons.camera_alt_outlined),
-                                      ),
-                                    )
-                                  : Container(
-                                      child: SvgPicture.file(
-                                        controller.file!,
-                                        width: 100,
-                                        height: 100,
-                                        // color: Colors.black,
-                                      ),
-                                    ),
+                    GetBuilder<AddItemControllerImp>(
+                      builder: (controller) => controller.file == null
+                          ? Container(
+                              padding: EdgeInsets.symmetric(horizontal: 40),
+                              margin: EdgeInsets.symmetric(horizontal: 100),
+                              child: MaterialButton(
+                                height: 50,
+                                shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                color: AppColors.primarycolor,
+                                onPressed: () {
+                                  controller.chooseimage();
+                                },
+                                child: Icon(Icons.image),
+                              ),
+                            )
+                          : InkWell(
+                              onTap: () {
+                                controller.chooseimage();
+                              },
+                              child: Container(
+                                child: Image.file(controller.file!),
+                                width: 100,
+                                height: 100,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 40,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: GetBuilder<AddItemControllerImp>(
-                              builder: (controller) => controller.file == null
-                                  ? Container(
-                                      child: MaterialButton(
-                                        height: 50,
-                                        shape: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        color: AppColors.primarycolor,
-                                        onPressed: () {
-                                          controller.chooseimage();
-                                        },
-                                        child:
-                                            Icon(Icons.browse_gallery_rounded),
-                                      ),
-                                    )
-                                  : Container(
-                                      child: SvgPicture.file(
-                                        controller.file!,
-                                        width: 100,
-                                        height: 100,
-                                        // color: Colors.black,
-                                      ),
-                                    ),
-                            ),
-                          )
-                        ],
-                      ),
                     ),
                     SizedBox(
                       height: 10,
                     ),
-
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 30),
                       child: MaterialButton(
@@ -264,31 +226,12 @@ class AddItems extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15)),
                         color: AppColors.primarycolor,
                         onPressed: () async {
+                          controller.additem();
                           // await controller.addcat();
                         },
                         child: Text("Add item"),
                       ),
                     ),
-                    // DropdownSearch<String>(
-                    //   popupProps: PopupProps.menu(
-                    //     showSelectedItems: true,
-                    //     // disabledItemFn: (String s) => s.startsWith('I'),
-                    //   ),
-                    //   items: const [
-                    //     "Brazil",
-                    //     "Italia (Disabled)",
-                    //     "Tunisia",
-                    //     'Canada'
-                    //   ],
-                    //   dropdownDecoratorProps: const DropDownDecoratorProps(
-                    //     dropdownSearchDecoration: InputDecoration(
-                    //       labelText: "Menu mode",
-                    //       hintText: "country in menu mode",
-                    //     ),
-                    //   ),
-                    //   onChanged: print,
-                    //   selectedItem: "Brazil",
-                    // ),
                   ],
                 ),
               ),

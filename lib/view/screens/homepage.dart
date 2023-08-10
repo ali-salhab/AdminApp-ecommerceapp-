@@ -37,7 +37,9 @@ class HomePage extends StatelessWidget {
             HomepageCard(
               title: "orders",
               icon: Icons.online_prediction_rounded,
-              ontap: () {},
+              ontap: () {
+                controller.gotoorderspage();
+              },
             )
           ],
         ),

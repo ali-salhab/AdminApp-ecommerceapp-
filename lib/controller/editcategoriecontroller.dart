@@ -23,9 +23,6 @@ class EditCategorieController extends GetxController {
   }
 
   editcat() async {
-    print("-----------------------------");
-    print(namear!.text);
-    print(nameen!.text);
     if (formstate.currentState!.validate()) {
       statusrequest = Statusrequest.loading;
       update();

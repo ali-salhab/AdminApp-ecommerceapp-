@@ -1,3 +1,4 @@
+import 'package:adminapp/core/functions/fcmconfig.dart';
 import 'package:adminapp/core/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -18,7 +19,6 @@ class Localcontroller extends GetxController {
   }
 
   requestpermition() async {
-    print("peeeeeeermetion");
     bool serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -50,6 +50,9 @@ class Localcontroller extends GetxController {
   void onInit() {
     // requestnotificationpermition();
     // fcmconfig();
+    requestnotificationpermition();
+    fcmconfig();
+    requestpermition();
     requestpermition();
     String language = myservices.shared.getString('lang').toString();
 

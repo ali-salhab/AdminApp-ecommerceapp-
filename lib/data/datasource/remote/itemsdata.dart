@@ -14,15 +14,15 @@ class ItemsData {
     return response.fold((l) => l, (r) => r);
   }
 
-  addcat(String nameen, String namear, File image) async {
-    var response = await crud.addRequestWithImageOne(
-        Applink.itemsadd, {"catnameen": nameen, "catnamear": nameen}, image);
+  additem(Map data, File image) async {
+    var response =
+        await crud.addRequestWithImageOne(Applink.itemsadd, data, image);
 
     // print(response);
     return response.fold((l) => l, (r) => r);
   }
 
-  deletecat(String imagename, String id) async {
+  deleteitem(String id, String imagename) async {
     var response = await crud
         .postdata(Applink.itemsdelete, {"id": id, "imagename": imagename});
 
@@ -30,26 +30,13 @@ class ItemsData {
     return response.fold((l) => l, (r) => r);
   }
 
-  editcat(String nameen, String namear, String oldname, String id,
-      {File? file = null}) async {
+  edititem(Map data, {File? file = null}) async {
     var response;
     if (file == null) {
-      response = await crud.postdata(Applink.itemsedit, {
-        "catnameen": nameen,
-        "catnamear": namear,
-        "id": id,
-        "oldname": oldname
-      });
+      response = await crud.postdata(Applink.itemsedit, data);
     } else {
-      response = await crud.addRequestWithImageOne(
-          Applink.categoriesedit,
-          {
-            "catnameen": nameen,
-            "catnamear": namear,
-            "id": id,
-            "oldname": oldname
-          },
-          file);
+      response =
+          await crud.addRequestWithImageOne(Applink.categoriesedit, data, file);
     }
 
     // print(response);

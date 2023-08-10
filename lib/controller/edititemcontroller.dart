@@ -1,23 +1,25 @@
 import 'dart:io';
 
+import 'package:adminapp/controller/categoriescontroller.dart';
 import 'package:adminapp/controller/itemcontroller.dart';
 import 'package:adminapp/core/class/statusrequest.dart';
 import 'package:adminapp/core/constants/colors.dart';
 import 'package:adminapp/core/constants/route.dart';
 import 'package:adminapp/core/functions/handlingdata.dart';
 import 'package:adminapp/core/functions/uploadfile.dart';
-import 'package:adminapp/data/datasource/remote/categoriesdata.dart';
 import 'package:adminapp/data/datasource/remote/itemsdata.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-abstract class AddItemController extends GetxController {}
+abstract class EditItemController extends GetxController {}
 
-class AddItemControllerImp extends AddItemController {
+class EditItemControllerImp extends EditItemController {
   bool checkval = true;
 
-  List<SelectedListItem> categories = [];
+  Map thisdata = {};
+
+  List cate = [];
   File? file = null;
 
   TextEditingController? namear;
@@ -30,37 +32,13 @@ class AddItemControllerImp extends AddItemController {
 
   TextEditingController? catname;
   TextEditingController? catid;
-
+  List<SelectedListItem> categories = [];
   Statusrequest statusrequest = Statusrequest.none;
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
-  CategoriesData catdata = CategoriesData(Get.find());
+  CategoriesControllerImp controller = Get.put(CategoriesControllerImp());
   ItemsData itemdata = ItemsData(Get.find());
-  getCategories() async {
-    statusrequest = Statusrequest.loading;
-    update();
-    var response = await catdata.getdata();
 
-    statusrequest = handlingdata(response);
-
-    if (statusrequest == Statusrequest.success) {
-      if (response['status'] == 'success') {
-        List c = response['data'];
-
-        for (int i = 0; i < c.length; i++) {
-          categories.add(SelectedListItem(
-              name: c[i]['categories_name'], value: c[i]['categories_id']));
-        }
-      } else {
-        statusrequest = Statusrequest.failure;
-        update();
-      }
-    }
-    update();
-  }
-
-  additem() async {
-    print("object");
-    print(catid);
+  updateitem() async {
     if (catid!.text == "") {
       return Get.defaultDialog(
           title: "Error",
@@ -69,34 +47,35 @@ class AddItemControllerImp extends AddItemController {
             Get.back();
           });
     }
-    if (file == null) {
-      return Get.defaultDialog(
-          onCustom: () {
-            print("will popdffffdf");
-            if (file != null) {
-              Get.back();
-              update();
-            }
-          },
-          onWillPop: () {
-            print("will pop");
-            return Future.value(true);
-          },
-          title: "Error",
-          content: Text("plese select image"),
-          onConfirm: () {
-            print("dfdfdf");
-            if (file != null) {
-              Get.back();
-              update();
-            }
-            chooseimage();
-          });
-    }
+    // if (file == null) {
+    //   return Get.defaultDialog(
+    //       onCustom: () {
+    //         print("will popdffffdf");
+    //         if (file != null) {
+    //           Get.back();
+    //           update();
+    //         }
+    //       },
+    //       onWillPop: () {
+    //         print("will pop");
+    //         return Future.value(true);
+    //       },
+    //       title: "Error",
+    //       content: Text("plese select image"),
+    //       onConfirm: () {
+    //         print("dfdfdf");
+    //         if (file != null) {
+    //           Get.back();
+    //           update();
+    //         }
+    //         chooseimage();
+    //       });
+    // }
     if (formstate.currentState!.validate()) {
       statusrequest = Statusrequest.loading;
       update();
       Map data = {
+        "id": thisdata['item_id'],
         "itemnameen": nameen!.text,
         "itemnamear": namear!.text,
         "itemdescen": descen!.text,
@@ -105,9 +84,10 @@ class AddItemControllerImp extends AddItemController {
         "itemcat": catid!.text,
         "itemactive": checkval == true ? "1" : "0",
         "itemdiscount": discount!.text,
-        "itemprice": price!.text
+        "itemprice": price!.text,
+        "imageoldname": thisdata['item_image']
       };
-      var response = await itemdata.additem(data, file!);
+      var response = await itemdata.edititem(data, file: file);
 
       statusrequest = handlingdata(response);
       ItemsControllerImp cont = Get.find();
@@ -193,8 +173,15 @@ class AddItemControllerImp extends AddItemController {
   }
 
   @override
-  void onInit() {
-    getCategories();
+  void onInit() async {
+    super.onInit();
+    categories = Get.arguments['categories'];
+
+    cate = Get.arguments['cate'];
+    print("cate----------------->$cate");
+    thisdata = Get.arguments['data'];
+
+    print("---------cate---------------$cate");
     namear = TextEditingController();
     nameen = TextEditingController();
     descar = TextEditingController();
@@ -202,10 +189,26 @@ class AddItemControllerImp extends AddItemController {
     count = TextEditingController();
     discount = TextEditingController();
     price = TextEditingController();
+
     catid = TextEditingController();
     catname = TextEditingController();
 
-    super.onInit();
+    catid!.text = thisdata['item_categories'];
+    print("init edit ccontrolller ----------------->");
+    namear!.text = thisdata['item_name_ar'];
+    nameen!.text = thisdata['item_name'];
+    descar!.text = thisdata['item_desc_ar'];
+    descen!.text = thisdata['item_desc'];
+    discount!.text = thisdata['item_discount'];
+    count!.text = thisdata['item_count'];
+    price!.text = thisdata['item_price'];
+    String nammme = "";
+    for (int i = 0; i < cate.length; i++) {
+      if (cate[i]['id'] == thisdata['item_categories']) {
+        nammme = cate[i]['name'];
+      }
+    }
+    catname!.text = nammme;
   }
 }
   // 
